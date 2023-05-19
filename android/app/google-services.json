@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "512658402451",
+    "project_id": "easy-gaadi",
+    "storage_bucket": "easy-gaadi.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:512658402451:android:43fdecfd41a3d7cbfcb166",
+        "android_client_info": {
+          "package_name": "com.example.easy_gaadi"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "512658402451-cb0cggcqu7393skk8vtamsl3eaj521b1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.easy_gaadi",
+            "certificate_hash": "886d4bbd9c8126998217e1183626101f28d84240"
+          }
+        },
+        {
+          "client_id": "512658402451-rcc9l6j4b9sk9vcc0sk03n6agv76ngup.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCMs8Pn3L2YST_EMlXK6cSUXEE5X8Z0pNc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "512658402451-rcc9l6j4b9sk9vcc0sk03n6agv76ngup.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

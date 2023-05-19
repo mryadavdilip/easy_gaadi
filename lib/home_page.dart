@@ -19,8 +19,8 @@ class _HomePageState extends State<HomePage> {
           children: [
             GridView(
               shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              physics: const NeverScrollableScrollPhysics(),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 3,
               ),
               children: <Map<String, dynamic>>[

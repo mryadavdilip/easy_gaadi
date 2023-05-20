@@ -28,7 +28,7 @@ class _MyAppState extends State<MyApp> {
       builder: (_, child) => MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-          scaffoldBackgroundColor: Colors.yellow,
+          scaffoldBackgroundColor: const Color(0xFF796D04),
           colorScheme:
               ColorScheme.fromSwatch().copyWith(secondary: Colors.amber),
         ),

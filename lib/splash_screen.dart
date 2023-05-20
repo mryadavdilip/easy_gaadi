@@ -14,12 +14,12 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    _loadNextScreen();
+    navigate();
   }
 
-  _loadNextScreen() async {
+  navigate() async {
     await Future.delayed(
-      const Duration(seconds: 2),
+      const Duration(seconds: 3),
       () {
         Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (_) => const NavigationPage()));

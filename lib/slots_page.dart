@@ -1,8 +1,10 @@
 import 'package:change_case/change_case.dart';
 import 'package:easy_gaadi/const.dart';
+import 'package:easy_gaadi/widgets/progress_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 enum SlotStatus {
   available,
@@ -24,25 +26,48 @@ class _SlotsPageState extends State<SlotsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.black,
         title: const Text('Parking Slots'),
       ),
       body: Column(
         children: [
-          DropdownButton<SlotStatus>(
-            value: _statusFilter,
-            onChanged: (SlotStatus? newValue) {
-              _statusFilter = newValue;
-              _objectKey = Object();
-              setState(() {});
-            },
-            items: SlotStatus.values.map((e) {
-              return DropdownMenuItem(
-                value: e,
-                child: Text(e.name.toUpperFirstCase()),
-              );
-            }).toList(),
+          SizedBox(height: 20.h),
+          Container(
+            decoration: BoxDecoration(
+              border: Border.all(width: 2.sp, color: Colors.white),
+              borderRadius: BorderRadius.circular(5.r),
+            ),
+            child: DropdownButton<SlotStatus>(
+              dropdownColor: Colors.black,
+              value: _statusFilter,
+              isDense: true,
+              icon: const Icon(
+                Icons.expand_more,
+                color: Colors.white,
+              ),
+              underline: const Center(),
+              onChanged: (SlotStatus? newValue) {
+                _statusFilter = newValue;
+                _objectKey = Object();
+                setState(() {});
+              },
+              items: SlotStatus.values.map((e) {
+                return DropdownMenuItem(
+                  value: e,
+                  child: Text(
+                    '  ${e.name.toUpperFirstCase()}',
+                    style: GoogleFonts.montserrat(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w900,
+                      color: Colors.white,
+                    ),
+                    textScaleFactor: 1.sp,
+                  ),
+                );
+              }).toList(),
+            ),
           ),
-          SizedBox(height: 10.h),
+          SizedBox(height: 30.h),
           Expanded(
             child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
               key: ValueKey<Object>(_objectKey),
@@ -58,14 +83,13 @@ class _SlotsPageState extends State<SlotsPage> {
                       .map((doc) => Slot.fromFirestore(doc))
                       .toList();
                   return GridView.count(
+                    padding: EdgeInsets.symmetric(horizontal: 10.w),
                     crossAxisCount: 2,
                     children:
                         slots.map((slot) => SlotCard(slot: slot)).toList(),
                   );
                 } else {
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
+                  return const CustomProgressIndicator();
                 }
               },
             ),
@@ -171,7 +195,7 @@ class _SlotCardState extends State<SlotCard> {
                 ? _bookSlot
                 : null,
             child: _isBooking
-                ? const CircularProgressIndicator()
+                ? const CustomProgressIndicator()
                 : const Text('Book Slot'),
           ),
         ],

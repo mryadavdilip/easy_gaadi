@@ -2,6 +2,7 @@ import 'package:change_case/change_case.dart';
 import 'package:easy_gaadi/authentication/auth_controller.dart';
 import 'package:easy_gaadi/const.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class SignUpPage extends StatefulWidget {
@@ -12,12 +13,14 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<SignUpPage> {
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _idController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _confirmPasswordController =
       TextEditingController();
 
-  String userType = UserType.values.first.name;
+  UserType userType = UserType.values.first;
 
   @override
   Widget build(BuildContext context) {
@@ -26,10 +29,26 @@ class _SignUpPageState extends State<SignUpPage> {
         title: const Text('Sign Up'),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(20.0),
+        padding: EdgeInsets.all(20.sp),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            TextFormField(
+              controller: _nameController,
+              decoration: const InputDecoration(
+                labelText: 'Enter your full name',
+                border: OutlineInputBorder(),
+              ),
+            ),
+            TextFormField(
+              controller: _idController,
+              decoration: InputDecoration(
+                labelText: userType == UserType.driver
+                    ? 'Driving License'
+                    : 'Aadhaar Number',
+                border: const OutlineInputBorder(),
+              ),
+            ),
             TextFormField(
               controller: _emailController,
               decoration: const InputDecoration(
@@ -37,7 +56,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 border: OutlineInputBorder(),
               ),
             ),
-            const SizedBox(height: 10.0),
+            SizedBox(height: 10.h),
             TextFormField(
               controller: _passwordController,
               decoration: const InputDecoration(
@@ -46,7 +65,7 @@ class _SignUpPageState extends State<SignUpPage> {
               ),
               obscureText: true,
             ),
-            const SizedBox(height: 10.0),
+            SizedBox(height: 10.h),
             TextFormField(
               controller: _confirmPasswordController,
               decoration: const InputDecoration(
@@ -64,7 +83,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         value: e.name,
                         groupValue: userType,
                         onChanged: (v) {
-                          userType = e.name;
+                          userType = e;
                           setState(() {});
                         }),
                     Text(e.name.toTitleCase()),
@@ -72,7 +91,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 );
               }).toList(),
             ),
-            const SizedBox(height: 20.0),
+            SizedBox(height: 20.h),
             ElevatedButton(
               onPressed: signup,
               child: const Text('Sign Up'),
@@ -84,8 +103,13 @@ class _SignUpPageState extends State<SignUpPage> {
   }
 
   void signup() {
-    AuthController.signUp(_emailController.text, _passwordController.text,
-            _confirmPasswordController.text, userType)
+    AuthController.signUp(
+            _nameController.text,
+            _idController.text,
+            _emailController.text,
+            _passwordController.text,
+            _confirmPasswordController.text,
+            userType)
         .then((_) {
       Navigator.pop(context);
     }).catchError((e) {

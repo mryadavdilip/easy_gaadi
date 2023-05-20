@@ -1,6 +1,7 @@
 import 'package:easy_gaadi/const.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class AuthController {
   static Future<String?> login(String email, String password) async {
@@ -22,18 +23,19 @@ class AuthController {
     }
   }
 
-  static Future<void> signUp(String email, String password,
-      String confirmPassword, String userType) async {
+  static Future<void> signUp(String name, String idNumber, String email,
+      String password, String confirmPassword, UserType userType) async {
     if (email.isEmpty || password.isEmpty || confirmPassword.isEmpty) {
-      if (kDebugMode) {
-        print('Please enter all required fields.');
-      }
+      Fluttertoast.showToast(msg: 'Please enter all required fields.');
       return;
     }
     if (password != confirmPassword) {
-      if (kDebugMode) {
-        print('Passwords do not match.');
-      }
+      Fluttertoast.showToast(msg: 'Passwords do not match.');
+      return;
+    }
+    if ((userType == UserType.driver || userType == UserType.mechanic) &&
+        idNumber.isEmpty) {
+      Fluttertoast.showToast(msg: 'Please enter your ID document number');
       return;
     }
     try {
@@ -45,20 +47,19 @@ class AuthController {
           .collection(CollectionNames.users.name)
           .doc(userCredential.user?.email)
           .set({
-        UserFields.userType.name: userType,
+        UserFields.name.name: name,
+        UserFields.drivingLicense.name: idNumber,
+        UserFields.userType.name: userType.name,
+        UserFields.verified.name: false,
       });
-      if (kDebugMode) {
-        print('User registered: ${userCredential.user!.email}');
-      }
+      Fluttertoast.showToast(
+          msg: 'User registered: ${userCredential.user!.email}');
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
-        if (kDebugMode) {
-          print('The password provided is too weak.');
-        }
+        Fluttertoast.showToast(msg: 'The password provided is too weak.');
       } else if (e.code == 'email-already-in-use') {
-        if (kDebugMode) {
-          print('The account already exists for that email.');
-        }
+        Fluttertoast.showToast(
+            msg: 'The account already exists for that email.');
       }
     } catch (e) {
       if (kDebugMode) {

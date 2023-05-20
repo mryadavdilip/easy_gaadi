@@ -39,74 +39,85 @@ class _HomePageState extends State<HomePage> {
         : userType == UserType.driver
             ? Scaffold(
                 body: SafeArea(
-                  child: Column(
-                    children: [
-                      SizedBox(height: 20.h),
-                      const CustomHeader(text: 'Features'),
-                      SizedBox(height: 30.h),
-                      GridView(
-                        shrinkWrap: true,
-                        padding: EdgeInsets.symmetric(horizontal: 20.w),
-                        physics: const NeverScrollableScrollPhysics(),
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 3,
-                          mainAxisSpacing: 10.w,
-                          crossAxisSpacing: 10.w,
+                  child: Container(
+                    decoration: const BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage(
+                          'assets/images/bg2.png',
                         ),
-                        children: <Map<String, dynamic>>[
-                          {
-                            'title': 'Park your vehicle',
-                            'onTap': () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (_) => const SlotsPage()));
-                            },
-                          },
-                          // {
-                          //   'title': 'Share ride',
-                          //   'onTap': () {
-                          //     Navigator.push(
-                          //         context,
-                          //         MaterialPageRoute(
-                          //             builder: (_) => const RideSharing()));
-                          //   },
-                          // },
-                          {
-                            'title': 'Any problem? get instant help',
-                            'onTap': () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (_) => const OnroadRepair()));
-                            },
-                          },
-                        ].map((e) {
-                          return GestureDetector(
-                            onTap: e['onTap'],
-                            child: Container(
-                              height: 50.h,
-                              width: 100.w,
-                              padding: EdgeInsets.all(5.sp),
-                              alignment: Alignment.center,
-                              decoration: BoxDecoration(
-                                color: Colors.black,
-                                borderRadius: BorderRadius.circular(10.r),
-                              ),
-                              child: Text(
-                                '${e['title']}',
-                                style: GoogleFonts.montserrat(
-                                  fontSize: 16,
-                                  color: Colors.white,
-                                ),
-                                textAlign: TextAlign.center,
-                                textScaleFactor: 1.sp,
-                              ),
-                            ),
-                          );
-                        }).toList(),
+                        fit: BoxFit.cover,
                       ),
-                    ],
+                    ),
+                    child: Column(
+                      children: [
+                        SizedBox(height: 20.h),
+                        const CustomHeader(text: 'Features'),
+                        SizedBox(height: 30.h),
+                        GridView(
+                          shrinkWrap: true,
+                          padding: EdgeInsets.symmetric(horizontal: 20.w),
+                          physics: const NeverScrollableScrollPhysics(),
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 3,
+                            mainAxisSpacing: 10.w,
+                            crossAxisSpacing: 10.w,
+                          ),
+                          children: <Map<String, dynamic>>[
+                            {
+                              'title': 'Park your vehicle',
+                              'onTap': () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (_) => const SlotsPage()));
+                              },
+                            },
+                            // {
+                            //   'title': 'Share ride',
+                            //   'onTap': () {
+                            //     Navigator.push(
+                            //         context,
+                            //         MaterialPageRoute(
+                            //             builder: (_) => const RideSharing()));
+                            //   },
+                            // },
+                            {
+                              'title': 'Any problem? get instant help',
+                              'onTap': () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (_) => const OnroadRepair()));
+                              },
+                            },
+                          ].map((e) {
+                            return GestureDetector(
+                              onTap: e['onTap'],
+                              child: Container(
+                                height: 50.h,
+                                width: 100.w,
+                                padding: EdgeInsets.all(5.sp),
+                                alignment: Alignment.center,
+                                decoration: BoxDecoration(
+                                  color: Colors.black,
+                                  borderRadius: BorderRadius.circular(10.r),
+                                ),
+                                child: Text(
+                                  '${e['title']}',
+                                  style: GoogleFonts.montserrat(
+                                    fontSize: 16,
+                                    color: Colors.white,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                  textScaleFactor: 1.sp,
+                                ),
+                              ),
+                            );
+                          }).toList(),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 floatingActionButton: FloatingActionButton(

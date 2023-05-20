@@ -47,8 +47,9 @@ class _SplashScreenState extends State<SplashScreen> {
             Text(
               'EasyGaadi',
               style: GoogleFonts.notoSans(
-                fontSize: 18,
+                fontSize: 28,
                 fontWeight: FontWeight.w700,
+                color: Colors.white,
               ),
               textScaleFactor: 1.sp,
             ),

@@ -35,14 +35,14 @@ class _SplashScreenState extends State<SplashScreen> {
         child: Column(
           children: [
             SizedBox(height: 280.h),
-            // SizedBox(
-            //   height: 90.h,
-            //   width: 60.w,
-            //   child: Image.asset(
-            //     'assets/icons/splash_vector.svg',
-            //     fit: BoxFit.fill,
-            //   ),
-            // ),
+            SizedBox(
+              height: 90.h,
+              width: 60.w,
+              child: Image.asset(
+                'assets/logo.png',
+                fit: BoxFit.fill,
+              ),
+            ),
             SizedBox(height: 20.h),
             Text(
               'EasyGaadi',

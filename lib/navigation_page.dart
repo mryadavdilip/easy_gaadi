@@ -1,8 +1,10 @@
+import 'package:easy_gaadi/authentication/auth_controller.dart';
 import 'package:easy_gaadi/const.dart';
 import 'package:easy_gaadi/home_page.dart';
 import 'package:easy_gaadi/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class NavigationPage extends StatefulWidget {
   const NavigationPage({super.key});
@@ -32,7 +34,45 @@ class _NavigationPageState extends State<NavigationPage> {
           bottom: 8.h,
           child: GestureDetector(
             onTap: () {
-              showAboutDialog(context: context, applicationName: 'EasyGaadi');
+              showAboutDialog(
+                context: context,
+                applicationName: 'EasyGaadi',
+                applicationIcon: SizedBox(
+                  height: 30.w,
+                  width: 30.w,
+                  child: Image.asset(
+                    'assets/logo.png',
+                    fit: BoxFit.fill,
+                  ),
+                ),
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.pop(context);
+                      AuthController.logout();
+                    },
+                    child: Row(
+                      children: [
+                        Icon(
+                          Icons.logout,
+                          size: 25.sp,
+                          color: Colors.blue,
+                        ),
+                        SizedBox(width: 20.w),
+                        Text(
+                          'Logout',
+                          style: const TextStyle(
+                            fontSize: 16,
+                            // fontWeight: FontWeight.w500,
+                            color: Colors.blue,
+                          ),
+                          textScaleFactor: 1.sp,
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              );
             },
             child: Container(
               padding: EdgeInsets.all(2.sp),

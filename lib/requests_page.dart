@@ -22,6 +22,8 @@ class _RequestsPageState extends State<RequestsPage> {
     return Scaffold(
       body: SafeArea(
         child: Container(
+          height: double.infinity,
+          width: double.infinity,
           decoration: const BoxDecoration(
             image: DecorationImage(
               image: AssetImage(

@@ -67,4 +67,8 @@ class AuthController {
       }
     }
   }
+
+  static Future<void> logout() async {
+    await auth.signOut();
+  }
 }

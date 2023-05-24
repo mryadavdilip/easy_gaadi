@@ -7,7 +7,6 @@ final FirebaseFirestore firestore = FirebaseFirestore.instance;
 enum UserType {
   driver,
   mechanic,
-  parkingOwner,
 }
 
 enum ServiceType {

@@ -20,7 +20,7 @@ class _SignUpPageState extends State<SignUpPage> {
   final TextEditingController _confirmPasswordController =
       TextEditingController();
 
-  UserType userType = UserType.values.first;
+  UserType? userType = UserType.values.first;
 
   @override
   Widget build(BuildContext context) {
@@ -29,10 +29,11 @@ class _SignUpPageState extends State<SignUpPage> {
         title: const Text('Sign Up'),
       ),
       body: Padding(
-        padding: EdgeInsets.all(20.sp),
+        padding: EdgeInsets.symmetric(horizontal: 20.w),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            const Spacer(flex: 2),
             TextFormField(
               controller: _nameController,
               decoration: const InputDecoration(
@@ -40,6 +41,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 border: OutlineInputBorder(),
               ),
             ),
+            SizedBox(height: 10.h),
             TextFormField(
               controller: _idController,
               decoration: InputDecoration(
@@ -49,6 +51,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 border: const OutlineInputBorder(),
               ),
             ),
+            SizedBox(height: 10.h),
             TextFormField(
               controller: _emailController,
               decoration: const InputDecoration(
@@ -79,11 +82,11 @@ class _SignUpPageState extends State<SignUpPage> {
               children: UserType.values.map((e) {
                 return Row(
                   children: [
-                    Radio(
-                        value: e.name,
+                    Radio<UserType>(
+                        value: e,
                         groupValue: userType,
                         onChanged: (v) {
-                          userType = e;
+                          userType = v;
                           setState(() {});
                         }),
                     Text(e.name.toTitleCase()),
@@ -91,11 +94,12 @@ class _SignUpPageState extends State<SignUpPage> {
                 );
               }).toList(),
             ),
-            SizedBox(height: 20.h),
+            const Spacer(),
             ElevatedButton(
               onPressed: signup,
               child: const Text('Sign Up'),
             ),
+            const Spacer(flex: 2),
           ],
         ),
       ),
@@ -109,7 +113,7 @@ class _SignUpPageState extends State<SignUpPage> {
             _emailController.text,
             _passwordController.text,
             _confirmPasswordController.text,
-            userType)
+            userType!)
         .then((_) {
       Navigator.pop(context);
     }).catchError((e) {

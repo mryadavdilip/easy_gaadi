@@ -1,6 +1,8 @@
 import 'package:easy_gaadi/const.dart';
+import 'package:easy_gaadi/screens/navigation_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class AuthController {
@@ -23,9 +25,19 @@ class AuthController {
     }
   }
 
-  static Future<void> signUp(String name, String idNumber, String email,
-      String password, String confirmPassword, UserType userType) async {
-    if (email.isEmpty || password.isEmpty || confirmPassword.isEmpty) {
+  static Future<void> signUp(
+      String name,
+      String idNumber,
+      String phone,
+      String email,
+      String password,
+      String confirmPassword,
+      UserType userType) async {
+    if (name.isEmpty ||
+        phone.isEmpty ||
+        email.isEmpty ||
+        password.isEmpty ||
+        confirmPassword.isEmpty) {
       Fluttertoast.showToast(msg: 'Please enter all required fields.');
       return;
     }
@@ -64,6 +76,35 @@ class AuthController {
     } catch (e) {
       if (kDebugMode) {
         print(e);
+      }
+    }
+  }
+
+  static resetPassword(BuildContext context, String email) {
+    if (email.isEmpty) {
+      Fluttertoast.showToast(msg: 'all fields required');
+    } else {
+      try {
+        auth.sendPasswordResetEmail(email: email).then((credential) {
+          firestore
+              .collection(CollectionNames.users.name)
+              .doc(email)
+              .update({'lastResetRequest': DateTime.now().toIso8601String()});
+          Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const NavigationPage(),
+              ),
+              (route) => false);
+          Fluttertoast.showToast(msg: 'reset request sent to $email');
+        }).onError((error, stackTrace) {
+          Fluttertoast.showToast(msg: error.toString());
+        });
+      } catch (e) {
+        if (kDebugMode) {
+          print(e);
+        }
+        Fluttertoast.showToast(msg: e.toString());
       }
     }
   }

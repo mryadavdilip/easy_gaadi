@@ -14,9 +14,9 @@ class CustomHeader extends StatelessWidget {
     return Text(
       text,
       style: GoogleFonts.roboto(
-        fontSize: 30,
-        fontWeight: FontWeight.w800,
-        color: Colors.white,
+        fontSize: 40,
+        fontWeight: FontWeight.w400,
+        color: Colors.black,
       ),
       textScaleFactor: 1.sp,
     );

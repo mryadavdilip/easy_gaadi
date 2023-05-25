@@ -1,5 +1,6 @@
 import 'package:change_case/change_case.dart';
 import 'package:easy_gaadi/const.dart';
+import 'package:easy_gaadi/widgets/background.dart';
 import 'package:easy_gaadi/widgets/progress_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -24,12 +25,12 @@ class _SlotsPageState extends State<SlotsPage> {
   Object _objectKey = Object();
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return Background(
       appBar: AppBar(
         backgroundColor: Colors.black,
         title: const Text('Parking Slots'),
       ),
-      body: Column(
+      child: Column(
         children: [
           SizedBox(height: 20.h),
           Container(

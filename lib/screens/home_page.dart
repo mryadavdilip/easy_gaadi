@@ -1,9 +1,12 @@
+import 'package:change_case/change_case.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_gaadi/const.dart';
 import 'package:easy_gaadi/infra/utils.dart';
-import 'package:easy_gaadi/onroad_repair.dart';
-import 'package:easy_gaadi/requests_page.dart';
-import 'package:easy_gaadi/slots_page.dart';
+import 'package:easy_gaadi/screens/onroad_repair.dart';
+import 'package:easy_gaadi/screens/profile_page.dart';
+import 'package:easy_gaadi/screens/requests_page.dart';
+import 'package:easy_gaadi/screens/slots_page.dart';
+import 'package:easy_gaadi/widgets/background.dart';
 import 'package:easy_gaadi/widgets/header.dart';
 import 'package:easy_gaadi/widgets/progress_indicator.dart';
 import 'package:flutter/material.dart';
@@ -34,24 +37,24 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return userDoc == null
-        ? const CustomProgressIndicator()
-        : userType == UserType.driver
-            ? Scaffold(
-                body: SafeArea(
-                  child: Container(
-                    decoration: const BoxDecoration(
-                      image: DecorationImage(
-                        image: AssetImage(
-                          'assets/images/bg2.png',
-                        ),
-                        fit: BoxFit.cover,
-                      ),
-                    ),
+    return Stack(
+      fit: StackFit.expand,
+      children: [
+        userDoc == null
+            ? const CustomProgressIndicator()
+            : userType == UserType.driver
+                ? Background(
                     child: Column(
                       children: [
                         SizedBox(height: 20.h),
-                        const CustomHeader(text: 'Features'),
+                        FutureBuilder(
+                            future: FirestoreUtils.getUserDoc(
+                                auth.currentUser!.email!),
+                            builder: (context, snapshot) {
+                              return CustomHeader(
+                                  text:
+                                      'Welcome, ${snapshot.hasData ? snapshot.data?.get(UserFields.name.name).toString().toCapitalCase() : ''}');
+                            }),
                         SizedBox(height: 30.h),
                         GridView(
                           shrinkWrap: true,
@@ -59,7 +62,7 @@ class _HomePageState extends State<HomePage> {
                           physics: const NeverScrollableScrollPhysics(),
                           gridDelegate:
                               SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 3,
+                            crossAxisCount: 2,
                             mainAxisSpacing: 10.w,
                             crossAxisSpacing: 10.w,
                           ),
@@ -106,7 +109,7 @@ class _HomePageState extends State<HomePage> {
                                 child: Text(
                                   '${e['title']}',
                                   style: GoogleFonts.montserrat(
-                                    fontSize: 16,
+                                    fontSize: 21,
                                     color: Colors.white,
                                   ),
                                   textAlign: TextAlign.center,
@@ -118,18 +121,71 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ],
                     ),
-                  ),
-                ),
-                floatingActionButton: FloatingActionButton(
-                  onPressed: () {
+                  )
+                : RequestsPage(userType: userType),
+        Positioned(
+          bottom: 0,
+          child: Container(
+            height: 70.h,
+            width: 375.w,
+            decoration: BoxDecoration(
+              color: Colors.black,
+              borderRadius: BorderRadius.vertical(
+                top: Radius.circular(20.r),
+              ),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                GestureDetector(
+                  onTap: () {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
                             builder: (_) => RequestsPage(userType: userType)));
                   },
-                  child: const Icon(Icons.book),
+                  child: Icon(
+                    Icons.book,
+                    color: Colors.white,
+                    size: 60.sp,
+                  ),
                 ),
-              )
-            : RequestsPage(userType: userType);
+                GestureDetector(
+                  onTap: () {
+                    showAboutDialog(
+                      context: context,
+                      applicationIcon: SizedBox(
+                        height: 100.w,
+                        width: 200.w,
+                        child: Image.asset(
+                          'assets/logo.png',
+                          fit: BoxFit.fill,
+                        ),
+                      ),
+                    );
+                  },
+                  child: Icon(
+                    Icons.info,
+                    color: Colors.white,
+                    size: 60.sp,
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (_) => const ProfilePage()));
+                  },
+                  child: Icon(
+                    Icons.person,
+                    color: Colors.white,
+                    size: 60.sp,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
   }
 }

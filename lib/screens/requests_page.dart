@@ -1,6 +1,6 @@
 import 'package:change_case/change_case.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:easy_gaadi/const.dart';
+import 'package:easy_gaadi/infra/const.dart';
 import 'package:easy_gaadi/widgets/background.dart';
 import 'package:easy_gaadi/widgets/header.dart';
 import 'package:easy_gaadi/widgets/progress_indicator.dart';

@@ -39,6 +39,9 @@ dependencies:
   google_fonts: ^4.0.4
   firebase_auth: ^4.4.2
   change_case: ^1.1.0
+  dropdown_search: ^5.0.6
+  location: ^4.4.0
+  great_circle_distance_calculator: ^1.0.4
 
 
   # The following adds the Cupertino Icons font to your application.

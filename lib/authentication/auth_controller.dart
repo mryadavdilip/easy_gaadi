@@ -1,4 +1,4 @@
-import 'package:easy_gaadi/const.dart';
+import 'package:easy_gaadi/infra/const.dart';
 import 'package:easy_gaadi/screens/navigation_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';

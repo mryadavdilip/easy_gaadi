@@ -1,4 +1,5 @@
-import 'package:easy_gaadi/const.dart';
+import 'package:easy_gaadi/infra/const.dart';
+import 'package:easy_gaadi/infra/utils.dart';
 import 'package:easy_gaadi/screens/home_page.dart';
 import 'package:easy_gaadi/screens/login_page.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +12,12 @@ class NavigationPage extends StatefulWidget {
 }
 
 class _NavigationPageState extends State<NavigationPage> {
+  @override
+  void initState() {
+    Utils.getLocation();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(

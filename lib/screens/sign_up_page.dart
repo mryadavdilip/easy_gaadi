@@ -1,5 +1,5 @@
 import 'package:easy_gaadi/authentication/auth_controller.dart';
-import 'package:easy_gaadi/const.dart';
+import 'package:easy_gaadi/infra/const.dart';
 import 'package:easy_gaadi/infra/utils.dart';
 import 'package:easy_gaadi/widgets/background.dart';
 import 'package:easy_gaadi/widgets/custom_button.dart';

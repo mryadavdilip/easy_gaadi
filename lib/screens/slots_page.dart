@@ -1,5 +1,5 @@
 import 'package:change_case/change_case.dart';
-import 'package:easy_gaadi/const.dart';
+import 'package:easy_gaadi/infra/const.dart';
 import 'package:easy_gaadi/widgets/background.dart';
 import 'package:easy_gaadi/widgets/progress_indicator.dart';
 import 'package:flutter/material.dart';

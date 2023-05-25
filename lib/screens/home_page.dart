@@ -1,10 +1,11 @@
 import 'package:change_case/change_case.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:easy_gaadi/const.dart';
+import 'package:easy_gaadi/infra/const.dart';
 import 'package:easy_gaadi/infra/utils.dart';
 import 'package:easy_gaadi/screens/onroad_repair.dart';
 import 'package:easy_gaadi/screens/profile_page.dart';
 import 'package:easy_gaadi/screens/requests_page.dart';
+import 'package:easy_gaadi/screens/ride_sharing.dart';
 import 'package:easy_gaadi/screens/slots_page.dart';
 import 'package:easy_gaadi/widgets/background.dart';
 import 'package:easy_gaadi/widgets/header.dart';
@@ -76,15 +77,15 @@ class _HomePageState extends State<HomePage> {
                                         builder: (_) => const SlotsPage()));
                               },
                             },
-                            // {
-                            //   'title': 'Share ride',
-                            //   'onTap': () {
-                            //     Navigator.push(
-                            //         context,
-                            //         MaterialPageRoute(
-                            //             builder: (_) => const RideSharing()));
-                            //   },
-                            // },
+                            {
+                              'title': 'Share ride',
+                              'onTap': () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (_) => const RideSharing()));
+                              },
+                            },
                             {
                               'title': 'Any problem? get instant help',
                               'onTap': () {

@@ -26,6 +26,8 @@ enum CollectionNames {
   users,
   slots,
   requests,
+  places,
+  activeRides,
 }
 
 enum UserFields {
@@ -33,6 +35,7 @@ enum UserFields {
   drivingLicense,
   userType,
   verified,
+  balance,
 }
 
 enum RequestFields {
@@ -43,4 +46,27 @@ enum RequestFields {
   status,
   serviceStartTime,
   serviceEndTime,
+}
+
+enum PlaceFields {
+  name,
+  latlong,
+  lat,
+  long,
+}
+
+enum ActiveRideFields {
+  pickup,
+  dest,
+  sharedBy,
+  sharedWith,
+  sharedAt,
+  end,
+  status,
+}
+
+enum ActiveRideStatus {
+  active,
+  occupied,
+  complete,
 }

@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 class Background extends StatelessWidget {
   final Widget child;
   final PreferredSizeWidget? appBar;
+  final Widget? floatingActionButton;
   const Background({
     super.key,
     required this.child,
     this.appBar,
+    this.floatingActionButton,
   });
 
   @override
@@ -14,6 +16,7 @@ class Background extends StatelessWidget {
     return Scaffold(
       backgroundColor: const Color(0xFF16213E),
       appBar: appBar,
+      floatingActionButton: floatingActionButton,
       body: SafeArea(
         child: Stack(
           fit: StackFit.expand,

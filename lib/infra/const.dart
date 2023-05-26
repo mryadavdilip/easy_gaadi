@@ -28,11 +28,13 @@ enum CollectionNames {
   requests,
   places,
   activeRides,
+  feedbacks,
 }
 
 enum UserFields {
   name,
   drivingLicense,
+  aadhar,
   userType,
   verified,
   balance,
@@ -69,4 +71,12 @@ enum ActiveRideStatus {
   active,
   occupied,
   complete,
+}
+
+enum FeedbackFields {
+  feedback,
+  from,
+  to,
+  serviceId,
+  createdAt,
 }

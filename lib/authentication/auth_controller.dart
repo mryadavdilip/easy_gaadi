@@ -60,7 +60,9 @@ class AuthController {
           .doc(userCredential.user?.email)
           .set({
         UserFields.name.name: name,
-        UserFields.drivingLicense.name: idNumber,
+        userType == UserType.driver
+            ? UserFields.drivingLicense.name
+            : UserFields.aadhar.name: idNumber,
         UserFields.userType.name: userType.name,
         UserFields.verified.name: false,
       });

@@ -172,16 +172,8 @@ class _RideSharingState extends State<RideSharing> {
                                     in activeRidesSnapshot.data?.docs ?? []) {
                                   var tRDest =
                                       tdoc.data()[ActiveRideFields.dest.name];
-                                  if (getDistance(
-                                          double.parse(
-                                              tRDest[PlaceFields.lat.name]),
-                                          double.parse(
-                                              tRDest[PlaceFields.long.name]),
-                                          double.parse(selectedDest!.lat),
-                                          double.parse(selectedDest!.long)) <
-                                      1) {
-                                    activeRides.add(tdoc);
-                                  }
+
+                                  activeRides.add(tdoc);
                                 }
 
                                 return Column(

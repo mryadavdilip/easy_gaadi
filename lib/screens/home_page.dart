@@ -182,6 +182,14 @@ class _HomePageState extends State<HomePage> {
                     size: 60.sp,
                   ),
                 ),
+                GestureDetector(
+                  onTap: () {}, //walltet demo
+                  child: Icon(
+                    Icons.account_balance_wallet,
+                    color: Colors.white,
+                    size: 60.sp,
+                  ),
+                ),
               ],
             ),
           ),

@@ -47,14 +47,9 @@ class Utils {
                             textAlign: TextAlign.center,
                           ),
                         ),
-                        child != null
-                            ? Column(
-                                children: [
-                                  SizedBox(height: 10.h),
-                                  child,
-                                ],
-                              )
-                            : const SizedBox(),
+                        SizedBox(height: 10.h),
+                        child ?? const SizedBox(),
+                        SizedBox(height: 10.h),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [

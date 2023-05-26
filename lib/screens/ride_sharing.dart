@@ -170,8 +170,8 @@ class _RideSharingState extends State<RideSharing> {
                                 for (QueryDocumentSnapshot<
                                         Map<String, dynamic>> tdoc
                                     in activeRidesSnapshot.data?.docs ?? []) {
-                                  var tRDest =
-                                      tdoc.data()[ActiveRideFields.dest.name];
+                                  // var tRDest =
+                                  //     tdoc.data()[ActiveRideFields.dest.name];
 
                                   activeRides.add(tdoc);
                                 }

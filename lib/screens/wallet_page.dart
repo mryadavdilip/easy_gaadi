@@ -34,97 +34,112 @@ class _WalletPageState extends State<WalletPage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                CustomButton(
-                  onTap: () async {
-                    double walletBalance =
-                        await FirestoreUtils.walletBalance().last;
-
-                    Utils.scanQrCode()
-                        .then(Utils.walletQrDecode)
-                        .then((decodedMap) {
-                      if (decodedMap['amount']!.isEmpty &&
-                          decodedMap['walletId']!.isNotEmpty) {
-                        final TextEditingController amountController =
-                            TextEditingController(text: '1');
-                        Utils.confirmationDialog(
-                          context,
-                          closeOnConfirm: false,
-                          onConfirm: () {
-                            try {
-                              double amount =
-                                  double.parse(amountController.text);
-                              if (amount > walletBalance) {
-                                Fluttertoast.showToast(
-                                    msg: 'Insufficient balance');
-                              } else if (amount > 0) {
-                                String initiatedAt =
-                                    DateTime.now().toIso8601String();
-                                firestore
-                                    .collection(
-                                        CollectionNames.transactions.name)
-                                    .doc()
-                                    .set({
-                                  TransactionFields.amount.name:
-                                      amount.toString(),
-                                  TransactionFields.from.name:
-                                      auth.currentUser!.email,
-                                  TransactionFields.to.name:
-                                      decodedMap['walletId'],
-                                  TransactionFields.initiatedAt.name:
-                                      initiatedAt,
-                                  TransactionFields.status.name: 'success',
-                                });
-                              }
-                            } catch (e) {
-                              Fluttertoast.showToast(msg: 'Enter valid amount');
-                            }
-                          },
-                          title: 'Enter amount to send',
-                          child: CustomTextField(
-                            controller: amountController,
-                            hintText: 'Enter amount',
-                            textFieldType: TextFieldType.amount,
-                          ),
-                          confirmationText: 'Continue',
-                        );
-                      } else if (decodedMap['amount']!.isNotEmpty &&
-                          decodedMap['walletId']!.isNotEmpty) {
-                        try {
-                          double amount = double.parse(decodedMap['amount']!);
-                          if (amount > walletBalance) {
-                            Fluttertoast.showToast(msg: 'Insufficient balance');
-                          } else if (amount > 0) {
-                            String initiatedAt =
-                                DateTime.now().toIso8601String();
-                            firestore
-                                .collection(CollectionNames.transactions.name)
-                                .doc()
-                                .set({
-                              TransactionFields.amount.name: amount.toString(),
-                              TransactionFields.from.name:
-                                  auth.currentUser!.email,
-                              TransactionFields.to.name: decodedMap['walletId'],
-                              TransactionFields.initiatedAt.name: initiatedAt,
-                              TransactionFields.status.name: 'success',
-                            }).then((_) {
-                              Fluttertoast.showToast(
-                                  msg: 'Transfer successful');
-                            });
-                          }
-                        } catch (e) {
-                          Fluttertoast.showToast(msg: 'Invalid amount');
-                        }
+                StreamBuilder<double>(
+                    stream: FirestoreUtils.walletBalance(),
+                    builder: (context, snapshot) {
+                      if (!snapshot.hasData) {
+                        return const Center();
                       } else {
-                        Fluttertoast.showToast(msg: 'Invalid data');
+                        double walletBalance = snapshot.data!;
+
+                        return CustomButton(
+                          onTap: () async {
+                            Utils.scanQrCode()
+                                .then(Utils.walletQrDecode)
+                                .then((decodedMap) {
+                              if (decodedMap['amount']!.isEmpty &&
+                                  decodedMap['walletId']!.isNotEmpty) {
+                                final TextEditingController amountController =
+                                    TextEditingController(text: '1');
+                                Utils.confirmationDialog(
+                                  context,
+                                  closeOnConfirm: false,
+                                  onConfirm: () {
+                                    try {
+                                      double amount =
+                                          double.parse(amountController.text);
+                                      if (amount > walletBalance) {
+                                        Fluttertoast.showToast(
+                                            msg: 'Insufficient balance');
+                                      } else if (amount > 0) {
+                                        String initiatedAt =
+                                            DateTime.now().toIso8601String();
+                                        firestore
+                                            .collection(CollectionNames
+                                                .transactions.name)
+                                            .doc()
+                                            .set({
+                                          TransactionFields.amount.name:
+                                              amount.toString(),
+                                          TransactionFields.from.name:
+                                              auth.currentUser!.email,
+                                          TransactionFields.to.name:
+                                              decodedMap['walletId'],
+                                          TransactionFields.initiatedAt.name:
+                                              initiatedAt,
+                                          TransactionFields.status.name:
+                                              'success',
+                                        });
+                                      }
+                                    } catch (e) {
+                                      Fluttertoast.showToast(
+                                          msg: 'Enter valid amount');
+                                    }
+                                  },
+                                  title: 'Enter amount to send',
+                                  child: CustomTextField(
+                                    controller: amountController,
+                                    hintText: 'Enter amount',
+                                    textFieldType: TextFieldType.amount,
+                                  ),
+                                  confirmationText: 'Continue',
+                                );
+                              } else if (decodedMap['amount']!.isNotEmpty &&
+                                  decodedMap['walletId']!.isNotEmpty) {
+                                try {
+                                  double amount =
+                                      double.parse(decodedMap['amount']!);
+                                  if (amount > walletBalance) {
+                                    Fluttertoast.showToast(
+                                        msg: 'Insufficient balance');
+                                  } else if (amount > 0) {
+                                    String initiatedAt =
+                                        DateTime.now().toIso8601String();
+                                    firestore
+                                        .collection(
+                                            CollectionNames.transactions.name)
+                                        .doc()
+                                        .set({
+                                      TransactionFields.amount.name:
+                                          amount.toString(),
+                                      TransactionFields.from.name:
+                                          auth.currentUser!.email,
+                                      TransactionFields.to.name:
+                                          decodedMap['walletId'],
+                                      TransactionFields.initiatedAt.name:
+                                          initiatedAt,
+                                      TransactionFields.status.name: 'success',
+                                    }).then((_) {
+                                      Fluttertoast.showToast(
+                                          msg: 'Transfer successful');
+                                    });
+                                  }
+                                } catch (e) {
+                                  Fluttertoast.showToast(msg: 'Invalid amount');
+                                }
+                              } else {
+                                Fluttertoast.showToast(msg: 'Invalid data');
+                              }
+                            });
+                          },
+                          title: 'Send',
+                          height: 50.h,
+                          width: 80.w,
+                          color1: Colors.white,
+                          color2: Colors.black,
+                        );
                       }
-                    });
-                  },
-                  title: 'Send',
-                  height: 50.h,
-                  width: 80.w,
-                  color1: Colors.white,
-                  color2: Colors.black,
-                ),
+                    }),
                 SizedBox(width: 20.w),
                 CustomButton(
                   onTap: () {

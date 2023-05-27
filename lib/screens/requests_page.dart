@@ -2,6 +2,7 @@ import 'package:change_case/change_case.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_gaadi/infra/const.dart';
 import 'package:easy_gaadi/infra/utils.dart';
+import 'package:easy_gaadi/screens/feedback_page.dart';
 import 'package:easy_gaadi/widgets/background.dart';
 import 'package:easy_gaadi/widgets/custom_button.dart';
 import 'package:easy_gaadi/widgets/custom_textfield.dart';
@@ -25,11 +26,17 @@ class _RequestsPageState extends State<RequestsPage> {
   Widget build(BuildContext context) {
     return Background(
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        backgroundColor: Colors.black,
+        onPressed: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (_) => FeedbackPage(userType: widget.userType)));
+        },
         child: Icon(
           Icons.feedback,
           size: 30.sp,
-          color: Colors.transparent,
+          color: Colors.white,
         ),
       ),
       child: SafeArea(

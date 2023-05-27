@@ -6,6 +6,7 @@ import 'package:easy_gaadi/infra/utils.dart';
 import 'package:easy_gaadi/widgets/background.dart';
 import 'package:easy_gaadi/widgets/custom_button.dart';
 import 'package:easy_gaadi/widgets/custom_progress.dart';
+import 'package:easy_gaadi/widgets/wallet_balance.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -42,34 +43,7 @@ class _RideSharingState extends State<RideSharing> {
             child: Column(
               children: [
                 SizedBox(height: 10.h),
-                Container(
-                  constraints: BoxConstraints(minWidth: 50.w, maxWidth: 100.w),
-                  padding: EdgeInsets.all(10.sp),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(20.r),
-                  ),
-                  child: Row(
-                    children: [
-                      Icon(
-                        Icons.currency_rupee,
-                        size: 20.sp,
-                      ),
-                      Text(
-                        !usersSnapshot.hasData
-                            ? '0'
-                            : usersSnapshot.data
-                                    ?.data()?[UserFields.balance.name] ??
-                                '0',
-                        style: GoogleFonts.actor(
-                          fontSize: 20,
-                          fontWeight: FontWeight.w600,
-                        ),
-                        textScaleFactor: 1.sp,
-                      ),
-                    ],
-                  ),
-                ),
+                const WalletBalance(),
                 SizedBox(height: 30.h),
                 StreamBuilder(
                   stream: firestore

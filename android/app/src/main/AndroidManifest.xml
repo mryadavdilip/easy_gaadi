@@ -1,5 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.easy_gaadi">
+    <uses-permission android:name="android.permission.CAMERA" />
    <application
         android:label="easy_gaadi"
         android:name="${applicationName}"

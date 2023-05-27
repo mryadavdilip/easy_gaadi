@@ -9,15 +9,18 @@ enum TextFieldType {
   password,
   description,
   document,
+  amount,
 }
 
 class CustomTextField extends StatefulWidget {
   final TextEditingController? controller;
+  final Function(String)? onChanged;
   final TextFieldType textFieldType;
   final String? hintText;
   const CustomTextField({
     super.key,
     this.controller,
+    this.onChanged,
     this.hintText,
     this.textFieldType = TextFieldType.phone,
   });
@@ -47,6 +50,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
       ),
       child: TextField(
         controller: widget.controller,
+        onChanged: widget.onChanged,
         style: TextStyle(
           fontFamily: 'Century Gothic',
           fontSize: 16.sp,
@@ -54,6 +58,19 @@ class _CustomTextFieldState extends State<CustomTextField> {
           color: Colors.white,
         ),
         obscureText: obscureText,
+        keyboardType: widget.textFieldType == TextFieldType.name
+            ? TextInputType.name
+            : widget.textFieldType == TextFieldType.age
+                ? TextInputType.number
+                : widget.textFieldType == TextFieldType.email
+                    ? TextInputType.emailAddress
+                    : widget.textFieldType == TextFieldType.phone
+                        ? TextInputType.phone
+                        : widget.textFieldType == TextFieldType.document
+                            ? TextInputType.number
+                            : widget.textFieldType == TextFieldType.amount
+                                ? TextInputType.number
+                                : TextInputType.text,
         cursorColor: Colors.white,
         decoration: InputDecoration(
           contentPadding: EdgeInsets.symmetric(vertical: 10.h),
@@ -73,7 +90,10 @@ class _CustomTextFieldState extends State<CustomTextField> {
                                     : widget.textFieldType ==
                                             TextFieldType.document
                                         ? Icons.document_scanner
-                                        : Icons.shopping_bag,
+                                        : widget.textFieldType ==
+                                                TextFieldType.amount
+                                            ? Icons.money
+                                            : Icons.shopping_bag,
                 color: Colors.white,
               )),
           suffixIcon: widget.textFieldType == TextFieldType.password

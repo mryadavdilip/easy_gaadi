@@ -4,6 +4,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 final FirebaseAuth auth = FirebaseAuth.instance;
 final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
+const String adminEmail = 'mryadavdilip@gmail.com';
+
 enum UserType {
   driver,
   mechanic,
@@ -29,6 +31,7 @@ enum CollectionNames {
   places,
   activeRides,
   feedbacks,
+  transactions,
 }
 
 enum UserFields {
@@ -79,4 +82,15 @@ enum FeedbackFields {
   to,
   serviceId,
   createdAt,
+}
+
+enum TransactionFields {
+  initiatedAt,
+  tranactionId,
+  transactionRefId,
+  amount,
+  status,
+  from,
+  to,
+  approvalRefNo,
 }

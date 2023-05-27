@@ -7,6 +7,7 @@ import 'package:easy_gaadi/screens/profile_page.dart';
 import 'package:easy_gaadi/screens/requests_page.dart';
 import 'package:easy_gaadi/screens/ride_sharing.dart';
 import 'package:easy_gaadi/screens/slots_page.dart';
+import 'package:easy_gaadi/screens/wallet_page.dart';
 import 'package:easy_gaadi/widgets/background.dart';
 import 'package:easy_gaadi/widgets/header.dart';
 import 'package:easy_gaadi/widgets/progress_indicator.dart';
@@ -183,7 +184,10 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
                 GestureDetector(
-                  onTap: () {}, //walltet demo
+                  onTap: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (_) => const WalletPage()));
+                  },
                   child: Icon(
                     Icons.account_balance_wallet,
                     color: Colors.white,

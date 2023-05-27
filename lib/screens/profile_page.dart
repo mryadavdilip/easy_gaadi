@@ -20,69 +20,65 @@ class ProfilePage extends StatelessWidget {
             if (!snapshot.hasData) {
               return const CustomProgressIndicator();
             } else {
-              return Center(
-                child: Container(
-                  width: 350.w,
-                  padding: EdgeInsets.all(20.sp),
-                  margin: EdgeInsets.symmetric(horizontal: 20.w),
-                  decoration: BoxDecoration(
-                    color: Colors.black,
-                    borderRadius: BorderRadius.circular(30.r),
-                  ),
-                  child: Stack(
-                    fit: StackFit.expand,
-                    children: [
-                      RichText(
-                        text: TextSpan(
-                          text: 'Profile\n\n',
-                          style: GoogleFonts.aclonica(
-                            fontSize: 28,
-                            fontWeight: FontWeight.w600,
-                          ),
-                          children: snapshot.data!.data()?.entries.map((e) {
-                            return TextSpan(
-                              text: '${e.key.toHeaderCase()}: ',
-                              style: GoogleFonts.montserrat(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w400,
-                                height: 2.h,
-                              ),
-                              children: [
-                                TextSpan(
-                                  text:
-                                      '${e.value.toString().toUpperCase()} \n',
-                                  style: GoogleFonts.montserrat(
-                                    fontWeight: FontWeight.w700,
-                                  ),
+              return Container(
+                width: 350.w,
+                padding: EdgeInsets.all(20.sp),
+                margin: EdgeInsets.symmetric(horizontal: 20.w, vertical: 50.h),
+                decoration: BoxDecoration(
+                  color: Colors.black,
+                  borderRadius: BorderRadius.circular(30.r),
+                ),
+                child: Stack(
+                  fit: StackFit.expand,
+                  children: [
+                    RichText(
+                      text: TextSpan(
+                        text: 'Profile\n\n\n\n',
+                        style: GoogleFonts.aclonica(
+                          fontSize: 28,
+                          fontWeight: FontWeight.w600,
+                        ),
+                        children: snapshot.data!.data()?.entries.map((e) {
+                          return TextSpan(
+                            text: '${e.key.toHeaderCase()}: ',
+                            style: GoogleFonts.montserrat(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w400,
+                              height: 2.h,
+                            ),
+                            children: [
+                              TextSpan(
+                                text: '${e.value.toString().toUpperCase()} \n',
+                                style: GoogleFonts.montserrat(
+                                  fontWeight: FontWeight.w700,
                                 ),
-                              ],
-                            );
-                          }).toList(),
-                        ),
-                        textAlign: TextAlign.center,
-                        textScaleFactor: 1.sp,
+                              ),
+                            ],
+                          );
+                        }).toList(),
                       ),
-                      Positioned(
-                        top: 15.w,
-                        right: 15.w,
-                        child: GestureDetector(
-                          onTap: () {
-                            Utils.confirmationDialog(
-                              context,
-                              onConfirm: AuthController.logout,
-                              title: 'Are you sure, you want to sign out?',
-                              confirmationText: 'Sign Out',
-                            );
-                          },
-                          child: Icon(
-                            Icons.logout,
-                            size: 30.sp,
-                            color: Colors.white,
-                          ),
+                      textAlign: TextAlign.center,
+                      textScaleFactor: 1.sp,
+                    ),
+                    Positioned(
+                      right: 0,
+                      child: GestureDetector(
+                        onTap: () {
+                          Utils.confirmationDialog(
+                            context,
+                            onConfirm: AuthController.logout,
+                            title: 'Are you sure, you want to sign out?',
+                            confirmationText: 'Sign Out',
+                          );
+                        },
+                        child: Icon(
+                          Icons.logout,
+                          size: 30.sp,
+                          color: Colors.white,
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               );
             }

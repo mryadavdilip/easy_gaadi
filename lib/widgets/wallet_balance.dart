@@ -34,7 +34,7 @@ class WalletBalance extends StatelessWidget {
                     return const Center();
                   } else {
                     return Text(
-                      snapshot.data.toString(),
+                      double.parse(snapshot.data.toString()).toStringAsFixed(2),
                       style: GoogleFonts.actor(
                         fontSize: 20,
                         fontWeight: FontWeight.w600,

@@ -79,6 +79,10 @@ class _WalletPageState extends State<WalletPage> {
                                               initiatedAt,
                                           TransactionFields.status.name:
                                               'success',
+                                        }).then((_) {
+                                          Navigator.pop(context);
+                                          Fluttertoast.showToast(
+                                              msg: 'Transfer successful');
                                         });
                                       }
                                     } catch (e) {

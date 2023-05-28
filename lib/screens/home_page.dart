@@ -6,6 +6,7 @@ import 'package:easy_gaadi/screens/onroad_repair.dart';
 import 'package:easy_gaadi/screens/profile_page.dart';
 import 'package:easy_gaadi/screens/requests_page.dart';
 import 'package:easy_gaadi/screens/ride_sharing.dart';
+import 'package:easy_gaadi/screens/settings_page.dart';
 import 'package:easy_gaadi/screens/slots_page.dart';
 import 'package:easy_gaadi/screens/wallet_page.dart';
 import 'package:easy_gaadi/widgets/background.dart';
@@ -65,12 +66,14 @@ class _HomePageState extends State<HomePage> {
                           gridDelegate:
                               SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 2,
+                            childAspectRatio: 0.9,
                             mainAxisSpacing: 10.w,
                             crossAxisSpacing: 10.w,
                           ),
                           children: <Map<String, dynamic>>[
                             {
                               'title': 'Park your vehicle',
+                              'icon': 'assets/icons/parking-lot.png',
                               'onTap': () {
                                 Navigator.push(
                                     context,
@@ -80,6 +83,7 @@ class _HomePageState extends State<HomePage> {
                             },
                             {
                               'title': 'Share ride',
+                              'icon': 'assets/icons/car-sharing.png',
                               'onTap': () {
                                 Navigator.push(
                                     context,
@@ -89,6 +93,7 @@ class _HomePageState extends State<HomePage> {
                             },
                             {
                               'title': 'Any problem? get instant help',
+                              'icon': 'assets/icons/repair.png',
                               'onTap': () {
                                 Navigator.push(
                                     context,
@@ -99,24 +104,32 @@ class _HomePageState extends State<HomePage> {
                           ].map((e) {
                             return GestureDetector(
                               onTap: e['onTap'],
-                              child: Container(
-                                height: 50.h,
-                                width: 100.w,
-                                padding: EdgeInsets.all(5.sp),
-                                alignment: Alignment.center,
-                                decoration: BoxDecoration(
-                                  color: Colors.black,
-                                  borderRadius: BorderRadius.circular(10.r),
-                                ),
-                                child: Text(
-                                  '${e['title']}',
-                                  style: GoogleFonts.montserrat(
-                                    fontSize: 21,
-                                    color: Colors.white,
+                              child: Column(
+                                children: [
+                                  Container(
+                                    height: 100.w,
+                                    width: 100.w,
+                                    padding: EdgeInsets.all(5.sp),
+                                    alignment: Alignment.center,
+                                    decoration: BoxDecoration(
+                                      color: Colors.black,
+                                      borderRadius: BorderRadius.circular(10.r),
+                                      image: DecorationImage(
+                                        image: AssetImage(e['icon']),
+                                        fit: BoxFit.fill,
+                                      ),
+                                    ),
                                   ),
-                                  textAlign: TextAlign.center,
-                                  textScaleFactor: 1.sp,
-                                ),
+                                  Text(
+                                    '${e['title']}',
+                                    style: GoogleFonts.montserrat(
+                                      fontSize: 21,
+                                      color: Colors.black,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                    textScaleFactor: 1.sp,
+                                  ),
+                                ],
                               ),
                             );
                           }).toList(),
@@ -175,6 +188,17 @@ class _HomePageState extends State<HomePage> {
                 GestureDetector(
                   onTap: () {
                     Navigator.push(context,
+                        MaterialPageRoute(builder: (_) => const WalletPage()));
+                  },
+                  child: Icon(
+                    Icons.account_balance_wallet,
+                    color: Colors.white,
+                    size: 60.sp,
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(context,
                         MaterialPageRoute(builder: (_) => const ProfilePage()));
                   },
                   child: Icon(
@@ -185,11 +209,13 @@ class _HomePageState extends State<HomePage> {
                 ),
                 GestureDetector(
                   onTap: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (_) => const WalletPage()));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (_) => const SettingsPage()));
                   },
                   child: Icon(
-                    Icons.account_balance_wallet,
+                    Icons.settings,
                     color: Colors.white,
                     size: 60.sp,
                   ),

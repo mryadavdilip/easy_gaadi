@@ -66,7 +66,11 @@ class ProfilePage extends StatelessWidget {
                         onTap: () {
                           Utils.confirmationDialog(
                             context,
-                            onConfirm: AuthController.logout,
+                            onConfirm: () {
+                              Navigator.popUntil(
+                                  context, (route) => route.isFirst);
+                              AuthController.logout();
+                            },
                             title: 'Are you sure, you want to sign out?',
                             confirmationText: 'Sign Out',
                           );

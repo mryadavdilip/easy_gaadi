@@ -1,5 +1,6 @@
 import 'package:change_case/change_case.dart';
 import 'package:easy_gaadi/infra/const.dart';
+import 'package:easy_gaadi/screens/slot_details_page.dart';
 import 'package:easy_gaadi/widgets/background.dart';
 import 'package:easy_gaadi/widgets/progress_indicator.dart';
 import 'package:flutter/material.dart';
@@ -106,12 +107,18 @@ class Slot {
   final String number;
   final SlotStatus status;
   final String bookedBy;
+  final String spot;
+  final DateTime startAt;
+  final DateTime endAt;
 
   Slot({
     required this.id,
     required this.number,
     required this.status,
     required this.bookedBy,
+    required this.spot,
+    required this.startAt,
+    required this.endAt,
   });
 
   factory Slot.fromFirestore(QueryDocumentSnapshot<Map<String, dynamic>> doc) {
@@ -122,6 +129,9 @@ class Slot {
       number: data['number'],
       status: status,
       bookedBy: data['bookedBy'] ?? '',
+      spot: data['spot'],
+      startAt: DateTime.parse(data['startAt']),
+      endAt: DateTime.parse(data['endAt']),
     );
   }
 }
@@ -145,6 +155,9 @@ class _SlotCardState extends State<SlotCard> {
     FirebaseFirestore.instance.collection('slots').doc(widget.slot.id).update({
       'status': SlotStatus.booked.name,
       'bookedBy': auth.currentUser?.email,
+      'spot': widget.slot.spot,
+      'startAt': DateTime.now(),
+      'endAt': DateTime.now().add(const Duration(minutes: 30)),
     }).then((value) {
       setState(() {
         _isBooking = false;
@@ -165,41 +178,50 @@ class _SlotCardState extends State<SlotCard> {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            'Slot ${widget.slot.number}',
-            style: const TextStyle(
-              fontSize: 24.0,
-              fontWeight: FontWeight.bold,
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (_) => SlotDetailsPage(slotId: widget.slot.id)));
+      },
+      child: Card(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              'Slot ${widget.slot.number}',
+              style: const TextStyle(
+                fontSize: 24.0,
+                fontWeight: FontWeight.bold,
+              ),
             ),
-          ),
-          const SizedBox(height: 16.0),
-          Text(
-            widget.slot.status.name.toUpperFirstCase(),
-            style: TextStyle(
-              fontSize: 18.0,
-              color: widget.slot.status == SlotStatus.available
-                  ? Colors.green
-                  : widget.slot.status == SlotStatus.booked
-                      ? Colors.amber
-                      : Colors.red,
+            const SizedBox(height: 16.0),
+            Text(
+              widget.slot.status.name.toUpperFirstCase(),
+              style: TextStyle(
+                fontSize: 18.0,
+                color: widget.slot.status == SlotStatus.available
+                    ? Colors.green
+                    : widget.slot.status == SlotStatus.booked
+                        ? Colors.amber
+                        : Colors.red,
+              ),
             ),
-          ),
-          const SizedBox(height: 16.0),
-          if (widget.slot.status == SlotStatus.booked)
-            Text('Booked by: ${widget.slot.bookedBy}'),
-          ElevatedButton(
-            onPressed: widget.slot.status == SlotStatus.available && !_isBooking
-                ? _bookSlot
-                : null,
-            child: _isBooking
-                ? const CustomProgressIndicator()
-                : const Text('Book Slot'),
-          ),
-        ],
+            const SizedBox(height: 16.0),
+            if (widget.slot.status == SlotStatus.booked)
+              Text('Booked by: ${widget.slot.bookedBy}'),
+            ElevatedButton(
+              onPressed:
+                  widget.slot.status == SlotStatus.available && !_isBooking
+                      ? _bookSlot
+                      : null,
+              child: _isBooking
+                  ? const CustomProgressIndicator()
+                  : const Text('Book Slot'),
+            ),
+          ],
+        ),
       ),
     );
   }

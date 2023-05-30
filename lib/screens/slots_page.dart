@@ -107,18 +107,12 @@ class Slot {
   final String number;
   final SlotStatus status;
   final String bookedBy;
-  final String spot;
-  final DateTime startAt;
-  final DateTime endAt;
 
   Slot({
     required this.id,
     required this.number,
     required this.status,
     required this.bookedBy,
-    required this.spot,
-    required this.startAt,
-    required this.endAt,
   });
 
   factory Slot.fromFirestore(QueryDocumentSnapshot<Map<String, dynamic>> doc) {
@@ -129,9 +123,6 @@ class Slot {
       number: data['number'],
       status: status,
       bookedBy: data['bookedBy'] ?? '',
-      spot: data['spot'],
-      startAt: DateTime.parse(data['startAt']),
-      endAt: DateTime.parse(data['endAt']),
     );
   }
 }
@@ -155,7 +146,6 @@ class _SlotCardState extends State<SlotCard> {
     FirebaseFirestore.instance.collection('slots').doc(widget.slot.id).update({
       'status': SlotStatus.booked.name,
       'bookedBy': auth.currentUser?.email,
-      'spot': widget.slot.spot,
       'startAt': DateTime.now(),
       'endAt': DateTime.now().add(const Duration(minutes: 30)),
     }).then((value) {

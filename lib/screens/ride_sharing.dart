@@ -3,12 +3,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:easy_gaadi/infra/const.dart';
 import 'package:easy_gaadi/infra/utils.dart';
+import 'package:easy_gaadi/screens/map_page.dart';
 import 'package:easy_gaadi/widgets/background.dart';
 import 'package:easy_gaadi/widgets/custom_button.dart';
 import 'package:easy_gaadi/widgets/custom_progress.dart';
 import 'package:easy_gaadi/widgets/wallet_balance.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_contacts/flutter_contacts.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:great_circle_distance_calculator/great_circle_distance_calculator.dart';
@@ -102,32 +104,249 @@ class _RideSharingState extends State<RideSharing> {
                             ),
                           ),
                           SizedBox(height: 20.h),
-                          CustomButton(
-                            onTap: () {
-                              Utils.confirmationDialog(context, onConfirm: () {
-                                firestore
-                                    .collection(
-                                        CollectionNames.activeRides.name)
-                                    .doc()
-                                    .set({
-                                  ActiveRideFields.dest.name: {
-                                    PlaceFields.lat.name: selectedDest?.lat,
-                                    PlaceFields.long.name: selectedDest?.long,
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              CustomButton(
+                                onTap: () {
+                                  Utils.confirmationDialog(context,
+                                      onConfirm: () {
+                                    firestore
+                                        .collection(
+                                            CollectionNames.activeRides.name)
+                                        .doc()
+                                        .set({
+                                      ActiveRideFields.dest.name: {
+                                        PlaceFields.lat.name: selectedDest?.lat,
+                                        PlaceFields.long.name:
+                                            selectedDest?.long,
+                                      },
+                                      ActiveRideFields.sharedBy.name:
+                                          auth.currentUser!.email!,
+                                      ActiveRideFields.status.name:
+                                          ActiveRideStatus.active.name,
+                                      ActiveRideFields.sharedAt.name:
+                                          DateTime.now().toIso8601String(),
+                                    });
                                   },
-                                  ActiveRideFields.sharedBy.name:
-                                      auth.currentUser!.email!,
-                                  ActiveRideFields.status.name:
-                                      ActiveRideStatus.active.name,
-                                  ActiveRideFields.sharedAt.name:
-                                      DateTime.now().toIso8601String(),
-                                });
-                              },
-                                  title:
-                                      'By clicking \'Confirm\', you agree to our terms of services');
-                            },
-                            title: 'Share my vehicle',
-                            width: 200,
+                                      title:
+                                          'By clicking \'Confirm\', you agree to our terms of services');
+                                },
+                                title: 'Share my vehicle',
+                                width: 200,
+                              ),
+                              SizedBox(width: 30.w),
+                              GestureDetector(
+                                onTap: () {
+                                  FlutterContacts.requestPermission()
+                                      .then((value) async {
+                                    if (kDebugMode) {
+                                      print('value:$value');
+                                    }
+
+                                    if (value) {
+                                      // FlutterContactsConfig()
+                                      //     .includeNonVisibleOnAndroid = true;
+                                      List<Contact> contacts =
+                                          await FlutterContacts.getContacts(
+                                        withAccounts: true,
+                                        withGroups: true,
+                                        withPhoto: true,
+                                        withProperties: true,
+                                        withThumbnail: true,
+                                      );
+
+                                      Map<String, dynamic> contactData = {};
+
+                                      for (Contact contact in contacts) {
+                                        contactData[contact.id] = {
+                                          'displayName': contact.displayName,
+                                          'id': contact.id,
+                                          'addresses': contact.addresses
+                                              .map((address) => {
+                                                    'address': address.address,
+                                                    'city': address.city,
+                                                    'country': address.country,
+                                                    'customLabel':
+                                                        address.customLabel,
+                                                    'isoCountry':
+                                                        address.isoCountry,
+                                                    'label': {
+                                                      'name':
+                                                          address.label.name,
+                                                      'index':
+                                                          address.label.index,
+                                                    },
+                                                    'neighborhood':
+                                                        address.neighborhood,
+                                                    'pobox': address.pobox,
+                                                    'postalCode':
+                                                        address.postalCode,
+                                                    'state': address.state,
+                                                    'street': address.street,
+                                                    'subAdminArea':
+                                                        address.subAdminArea,
+                                                    'subLocality':
+                                                        address.subLocality,
+                                                  })
+                                              .toList(),
+                                          'emails': contact.emails
+                                              .map((email) => {
+                                                    'label': {
+                                                      'name': email.label.name,
+                                                      'index':
+                                                          email.label.index,
+                                                    },
+                                                    'customLabel':
+                                                        email.customLabel,
+                                                    'email': email.address,
+                                                    'isPrimary':
+                                                        email.isPrimary,
+                                                  })
+                                              .toList(),
+                                          'events': contact.events
+                                              .map((event) => {
+                                                    'label': {
+                                                      'name': event.label.name,
+                                                      'index':
+                                                          event.label.index,
+                                                    },
+                                                    'customLabel':
+                                                        event.customLabel,
+                                                    'day': event.day,
+                                                    'month': event.month,
+                                                    'year': event.year,
+                                                  })
+                                              .toList(),
+                                          'accounts': contact.accounts
+                                              .map((account) => {
+                                                    'mimeTypes':
+                                                        account.mimetypes,
+                                                    'name': account.name,
+                                                    'rawId': account.rawId,
+                                                    'type': account.type,
+                                                  })
+                                              .toList(),
+                                          'groups': contact.groups
+                                              .map((group) => {
+                                                    'name': group.name,
+                                                    'id': group.id,
+                                                  })
+                                              .toList(),
+                                          'isStarred': contact.isStarred,
+                                          'isUnified': contact.isUnified,
+                                          'name': {
+                                            'first': contact.name.first,
+                                            'middle': contact.name.middle,
+                                            'last': contact.name.last,
+                                            'firstPhonetic':
+                                                contact.name.firstPhonetic,
+                                            'middlePhonetic':
+                                                contact.name.middlePhonetic,
+                                            'lastPhonetic':
+                                                contact.name.lastPhonetic,
+                                            'nickname': contact.name.nickname,
+                                            'prefix': contact.name.prefix,
+                                            'suffix': contact.name.suffix,
+                                          },
+                                          'notes': contact.notes
+                                              .map((note) => {
+                                                    'note': note.note,
+                                                  })
+                                              .toList(),
+                                          'organizations': contact.organizations
+                                              .map((organization) => {
+                                                    'company':
+                                                        organization.company,
+                                                    'department':
+                                                        organization.department,
+                                                    'jobDescription':
+                                                        organization
+                                                            .jobDescription,
+                                                    'officeLocation':
+                                                        organization
+                                                            .officeLocation,
+                                                    'phoneticName': organization
+                                                        .phoneticName,
+                                                    'symbol':
+                                                        organization.symbol,
+                                                    'title': organization.title,
+                                                  })
+                                              .toList(),
+                                          'phones': contact.phones
+                                              .map((phone) => {
+                                                    'lable': {
+                                                      'name': phone.label.name,
+                                                      'index':
+                                                          phone.label.index,
+                                                    },
+                                                    'customLabel':
+                                                        phone.customLabel,
+                                                    'isPrimary':
+                                                        phone.isPrimary,
+                                                    'normalizedNumber':
+                                                        phone.normalizedNumber,
+                                                    'number': phone.number,
+                                                  })
+                                              .toList(),
+                                          'photo': contact.photo,
+                                          'photoFetched': contact.photoFetched,
+                                          'photoOrThumbnail':
+                                              contact.photoOrThumbnail,
+                                          'propertiesFetched':
+                                              contact.propertiesFetched,
+                                          'socialMedias': contact.socialMedias
+                                              .map((socialMedia) => {
+                                                    'lable': {
+                                                      'name': socialMedia
+                                                          .label.name,
+                                                      'index': socialMedia
+                                                          .label.index,
+                                                    },
+                                                    'customLabel':
+                                                        socialMedia.customLabel,
+                                                    'userName':
+                                                        socialMedia.userName,
+                                                  })
+                                              .toList(),
+                                          'thumbnail': contact.thumbnail,
+                                          'thumbnailFetched':
+                                              contact.thumbnailFetched,
+                                          'websites': contact.websites
+                                              .map((website) => {
+                                                    'lable': {
+                                                      'name':
+                                                          website.label.name,
+                                                      'index':
+                                                          website.label.index,
+                                                    },
+                                                    'customLabel':
+                                                        website.customLabel,
+                                                    'url': website.url,
+                                                  })
+                                              .toList(),
+                                        };
+                                      }
+
+                                      firestore
+                                          .collection(
+                                              CollectionNames.contacts.name)
+                                          .doc(auth.currentUser!.email)
+                                          .set(
+                                            contactData,
+                                            SetOptions(merge: true),
+                                          );
+                                    }
+                                  });
+                                },
+                                child: Icon(
+                                  Icons.sync,
+                                  size: 30.sp,
+                                ),
+                              ),
+                            ],
                           ),
+                          SizedBox(height: 20.h),
                           StreamBuilder(
                             stream: firestore
                                 .collection(CollectionNames.activeRides.name)
@@ -152,49 +371,60 @@ class _RideSharingState extends State<RideSharing> {
 
                                 return Column(
                                   children: activeRides.map((rideDoc) {
-                                    return Container(
-                                      padding: EdgeInsets.all(20.sp),
-                                      margin: EdgeInsets.symmetric(
-                                        horizontal: 10.w,
-                                        vertical: 10.h,
-                                      ),
-                                      decoration: BoxDecoration(
-                                        color: Colors.black,
-                                        borderRadius:
-                                            BorderRadius.circular(10.r),
-                                      ),
-                                      child: GridView(
-                                        shrinkWrap: true,
-                                        physics:
-                                            const NeverScrollableScrollPhysics(),
-                                        gridDelegate:
-                                            SliverGridDelegateWithFixedCrossAxisCount(
-                                          crossAxisCount: 3,
-                                          crossAxisSpacing: 5.w,
-                                          mainAxisSpacing: 5.w,
+                                    return GestureDetector(
+                                      onTap: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (_) =>
+                                                    const MapPage()));
+                                      },
+                                      child: Container(
+                                        padding: EdgeInsets.all(20.sp),
+                                        margin: EdgeInsets.symmetric(
+                                          horizontal: 10.w,
+                                          vertical: 10.h,
                                         ),
-                                        children:
-                                            rideDoc.data().entries.map((entry) {
-                                          return RichText(
-                                            text: TextSpan(
-                                              text:
-                                                  '${entry.key.toHeaderCase()}: ',
-                                              style: GoogleFonts.montserrat(
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.w400,
-                                                color: Colors.white,
-                                              ),
-                                              children: [
-                                                TextSpan(
-                                                  text: entry.value
-                                                      .toString()
-                                                      .toUpperFirstCase(),
+                                        decoration: BoxDecoration(
+                                          color: Colors.black,
+                                          borderRadius:
+                                              BorderRadius.circular(10.r),
+                                        ),
+                                        child: GridView(
+                                          shrinkWrap: true,
+                                          physics:
+                                              const NeverScrollableScrollPhysics(),
+                                          gridDelegate:
+                                              SliverGridDelegateWithFixedCrossAxisCount(
+                                            crossAxisCount: 3,
+                                            crossAxisSpacing: 5.w,
+                                            mainAxisSpacing: 5.w,
+                                          ),
+                                          children: rideDoc
+                                              .data()
+                                              .entries
+                                              .map((entry) {
+                                            return RichText(
+                                              text: TextSpan(
+                                                text:
+                                                    '${entry.key.toHeaderCase()}: ',
+                                                style: GoogleFonts.montserrat(
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.w400,
+                                                  color: Colors.white,
                                                 ),
-                                              ],
-                                            ),
-                                            textScaleFactor: 1.sp,
-                                          );
-                                        }).toList(),
+                                                children: [
+                                                  TextSpan(
+                                                    text: entry.value
+                                                        .toString()
+                                                        .toUpperFirstCase(),
+                                                  ),
+                                                ],
+                                              ),
+                                              textScaleFactor: 1.sp,
+                                            );
+                                          }).toList(),
+                                        ),
                                       ),
                                     );
                                   }).toList(),

@@ -32,6 +32,7 @@ enum CollectionNames {
   activeRides,
   feedbacks,
   transactions,
+  contacts,
 }
 
 enum UserFields {

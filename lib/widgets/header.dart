@@ -16,7 +16,15 @@ class CustomHeader extends StatelessWidget {
       style: GoogleFonts.roboto(
         fontSize: 40,
         fontWeight: FontWeight.w400,
+        // backgroundColor: Colors.white,
         color: Colors.black,
+        shadows: [
+          Shadow(
+            blurRadius: 10.r,
+            offset: Offset(2.w, 2.h),
+            color: Colors.white,
+          ),
+        ],
       ),
       textScaleFactor: 1.sp,
     );

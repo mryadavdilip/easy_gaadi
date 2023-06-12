@@ -22,10 +22,10 @@ class Background extends StatelessWidget {
           fit: StackFit.expand,
           children: [
             Image.asset(
-              'assets/images/background.png',
+              'assets/images/background2.png',
               fit: BoxFit.fill,
-              color: Colors.yellow,
-              colorBlendMode: BlendMode.srcOut,
+              // color: Colors.yellow,
+              // colorBlendMode: BlendMode.srcOut,
             ),
             child,
           ],

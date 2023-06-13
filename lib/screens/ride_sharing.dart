@@ -10,7 +10,6 @@ import 'package:easy_gaadi/widgets/custom_progress.dart';
 import 'package:easy_gaadi/widgets/wallet_balance.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_contacts/flutter_contacts.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:great_circle_distance_calculator/great_circle_distance_calculator.dart';

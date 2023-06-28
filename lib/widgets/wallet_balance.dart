@@ -58,7 +58,7 @@ class WalletBalance extends StatelessWidget {
 
                 UpiUtils(context).initiateTransaction(
                   amount: double.parse(amountController.text),
-                  receiverUpiId: 'dilip5689@paytm',
+                  receiverUpiId: 'paytmqrta3qcg9a2z@paytm',
                   receiverName: 'Dilip Kumar Yadav',
                   transactionNote: 'easy gaadi wallet',
                   transactionRefId: initiatedAt,
